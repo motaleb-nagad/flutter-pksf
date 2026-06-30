@@ -1,0 +1,24 @@
+sequenceDiagram
+    actor U as Field Officer
+    participant App as Flutter app<br/>(login_screen.dart)
+    participant API as ApiClient<br/>(api_client.dart)
+    participant BE as Spring Boot jar<br/>(AuthController)
+    participant H2 as H2 DB
+    participant Local as Local SQLite<br/>(sqflite)
+
+    U->>App: type username + password,<br/>tap "Log in · প্রবেশ"
+    App->>API: Repository().api.login(user, pass)
+    API->>BE: POST /api/auth/login<br/>{ username, password }
+
+    rect rgb(247, 228, 222)
+        Note over BE,H2: Auth is MOCKED in this build —<br/>AuthController just checks the username string.<br/>NO database read or write happens here.
+    end
+    BE-->>API: 200 { role, profile }
+    API-->>App: response (ignored if offline)
+
+    App->>App: state.appLogin()<br/>loggedIn = true → show HomeScreen
+
+    Note over App,Local: Home data does NOT come from the server —<br/>it is read from the on-device offline store.
+    App->>Local: SELECT * FROM beneficiaries
+    Local-->>App: seeded case list
+    App-->>U: Home screen with today's visits
