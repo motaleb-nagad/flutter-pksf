@@ -1,8 +1,10 @@
 package bd.gov.mch.web;
 
 import bd.gov.mch.domain.OnlineStatus;
+import bd.gov.mch.domain.User;
 import bd.gov.mch.domain.Worker;
 import bd.gov.mch.domain.WorkerRole;
+import bd.gov.mch.repo.UserRepository;
 import bd.gov.mch.repo.WorkerRepository;
 import bd.gov.mch.service.FormatService;
 import java.util.List;
@@ -18,10 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class WorkerController {
 
     private final WorkerRepository repo;
+    private final UserRepository users;
     private final FormatService format;
 
-    public WorkerController(WorkerRepository repo, FormatService format) {
+    public WorkerController(WorkerRepository repo, UserRepository users, FormatService format) {
         this.repo = repo;
+        this.users = users;
         this.format = format;
     }
 
@@ -58,6 +62,10 @@ public class WorkerController {
         w.setCov(0);
         w.setLastSync("Never");
         w.setStatus(OnlineStatus.OFFLINE);
+
+        // Create the login account the new officer uses in the mobile app.
+        users.save(new User(username, password, "field-officer",
+                w.getName(), w.getUnion() + " Union"));
 
         return new OnboardResponse(repo.save(w), username, password);
     }

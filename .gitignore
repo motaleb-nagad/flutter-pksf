@@ -1,5 +1,6 @@
 # Backend (Java / Maven)
 backend/target/
+backend/data/
 *.class
 
 # Flutter / Dart

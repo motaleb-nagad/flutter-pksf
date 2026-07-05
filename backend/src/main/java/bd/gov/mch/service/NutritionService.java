@@ -36,6 +36,6 @@ public class NutritionService {
                 "Normal nutrition status",
                 "স্বাভাবিক",
                 "Continue growth monitoring",
-                "#0E7C66", "#E0EFEA");
+                "#03803D", "#E0EFEA");
     }
 }

@@ -46,7 +46,7 @@ NutritionStatus classifyMuac(double cm, bool edema) {
     label: 'Normal nutrition status',
     bn: 'স্বাভাবিক',
     action: 'Continue growth monitoring',
-    color: Color(0xFF0E7C66),
+    color: Color(0xFF03803D),
     bg: Color(0xFFE0EFEA),
   );
 }

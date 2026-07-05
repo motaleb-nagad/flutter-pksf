@@ -31,7 +31,7 @@ public class RiskService {
         return switch (level) {
             case HIGH -> new RiskStyle("#C0492E", "#F7E4DE", "High risk", "উচ্চ ঝুঁকি");
             case MEDIUM -> new RiskStyle("#B5792A", "#F5EAD6", "Medium risk", "মাঝারি ঝুঁকি");
-            case LOW -> new RiskStyle("#0E7C66", "#E0EFEA", "Low risk", "কম ঝুঁকি");
+            case LOW -> new RiskStyle("#03803D", "#E0EFEA", "Low risk", "কম ঝুঁকি");
         };
     }
 

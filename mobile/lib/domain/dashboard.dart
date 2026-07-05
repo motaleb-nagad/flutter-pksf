@@ -29,12 +29,12 @@ const List<Kpi> kKpis = [
 ];
 
 final List<ChartPoint> kAncTrend = [
-  ChartPoint('Jan', 58, const Color(0xFF0E7C66)),
-  ChartPoint('Feb', 61, const Color(0xFF0E7C66)),
-  ChartPoint('Mar', 64, const Color(0xFF0E7C66)),
-  ChartPoint('Apr', 66, const Color(0xFF0E7C66)),
-  ChartPoint('May', 69, const Color(0xFF0E7C66)),
-  ChartPoint('Jun', 71, const Color(0xFF0E7C66)),
+  ChartPoint('Jan', 58, const Color(0xFF03803D)),
+  ChartPoint('Feb', 61, const Color(0xFF03803D)),
+  ChartPoint('Mar', 64, const Color(0xFF03803D)),
+  ChartPoint('Apr', 66, const Color(0xFF03803D)),
+  ChartPoint('May', 69, const Color(0xFF03803D)),
+  ChartPoint('Jun', 71, const Color(0xFF03803D)),
 ];
 
 final List<ChartPoint> kAntigens = [
@@ -48,13 +48,13 @@ final List<ChartPoint> kAntigens = [
 ];
 
 final List<ChartPoint> kNutritionBands = [
-  ChartPoint('Normal', 81, const Color(0xFF0E7C66)),
+  ChartPoint('Normal', 81, const Color(0xFF03803D)),
   ChartPoint('MAM', 13, const Color(0xFFB5792A)),
   ChartPoint('SAM', 6, const Color(0xFFC0492E)),
 ];
 
 final List<ChartPoint> kRiskDistribution = [
-  ChartPoint('Low', 64, const Color(0xFF0E7C66)),
+  ChartPoint('Low', 64, const Color(0xFF03803D)),
   ChartPoint('Medium', 26, const Color(0xFFB5792A)),
   ChartPoint('High', 10, const Color(0xFFC0492E)),
 ];

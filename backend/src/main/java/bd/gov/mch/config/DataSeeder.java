@@ -4,9 +4,11 @@ import bd.gov.mch.domain.Beneficiary;
 import bd.gov.mch.domain.BeneficiaryType;
 import bd.gov.mch.domain.OnlineStatus;
 import bd.gov.mch.domain.RiskLevel;
+import bd.gov.mch.domain.User;
 import bd.gov.mch.domain.Worker;
 import bd.gov.mch.domain.WorkerRole;
 import bd.gov.mch.repo.BeneficiaryRepository;
+import bd.gov.mch.repo.UserRepository;
 import bd.gov.mch.repo.WorkerRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -20,10 +22,13 @@ public class DataSeeder implements CommandLineRunner {
 
     private final BeneficiaryRepository beneficiaries;
     private final WorkerRepository workers;
+    private final UserRepository users;
 
-    public DataSeeder(BeneficiaryRepository beneficiaries, WorkerRepository workers) {
+    public DataSeeder(BeneficiaryRepository beneficiaries, WorkerRepository workers,
+                      UserRepository users) {
         this.beneficiaries = beneficiaries;
         this.workers = workers;
+        this.users = users;
     }
 
     @Override
@@ -34,6 +39,17 @@ public class DataSeeder implements CommandLineRunner {
         if (workers.count() == 0) {
             seedWorkers();
         }
+        if (users.count() == 0) {
+            seedUsers();
+        }
+    }
+
+    /** Demo login accounts (plain-text passwords — demo build only). */
+    private void seedUsers() {
+        users.save(new User("rokeya.cb01", "Mch-2026", "field-officer",
+                "Rokeya Sultana", "Char Bhola Union"));
+        users.save(new User("s.rahman", "Admin-2026", "supervisor",
+                "Dr. S. Rahman", "Bhola Sadar · 6 unions · 42 field officers"));
     }
 
     private void seedBeneficiaries() {

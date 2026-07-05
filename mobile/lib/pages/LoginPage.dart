@@ -26,11 +26,20 @@ class _LoginScreenState extends State<LoginPage> {
 
   Future<void> _login() async {
     final state = context.read<AppState>();
-    // Best-effort backend auth; the app logs in regardless (offline-first).
     try {
-      await Repository().api.login(_user.text, _pass.text);
-    } catch (_) {/* offline — proceed with local session */}
-    state.appLogin();
+      final res = await Repository().api.login(_user.text, _pass.text);
+      if (res == null) {
+        // Server reached but credentials rejected (401).
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text('Invalid username or password · ভুল তথ্য')));
+        return;
+      }
+      state.appLogin();
+    } catch (_) {
+      // Server unreachable — offline-first: continue with the local session.
+      state.appLogin();
+    }
   }
 
   @override
@@ -84,7 +93,7 @@ class _LoginScreenState extends State<LoginPage> {
               const SizedBox(height: 14),
               Center(
                 child: Text(
-                  'Credentials are issued by your supervisor\nfrom the web portal',
+                  'Credentials are issued by your supervisor\nDemo login: rokeya.cb01 / Mch-2026',
                   textAlign: TextAlign.center,
                   style: TextStyle(color: Colors.white.withOpacity(0.8), fontSize: 12),
                 ),

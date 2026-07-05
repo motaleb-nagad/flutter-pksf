@@ -210,7 +210,7 @@ class _ChildScreenState extends State<ChildHealthPage> {
 
   Widget _epiChip((String, String, String) e) {
     final (color, bg, mark, label) = switch (e.$3) {
-      'done' => (const Color(0xFF0E7C66), const Color(0xFFE0EFEA), '✓', 'Done'),
+      'done' => (const Color(0xFF03803D), const Color(0xFFE0EFEA), '✓', 'Done'),
       'due' => (const Color(0xFFC0492E), const Color(0xFFF7E4DE), '!', 'Due now'),
       _ => (const Color(0xFF9A958B), const Color(0xFFF1EEE7), '·', 'Upcoming'),
     };

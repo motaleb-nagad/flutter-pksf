@@ -34,9 +34,9 @@ public class FormatService {
      */
     public String covColor(int v, boolean burden) {
         if (burden) {
-            return v >= 25 ? "#C0492E" : v >= 12 ? "#B5792A" : "#0E7C66";
+            return v >= 25 ? "#C0492E" : v >= 12 ? "#B5792A" : "#03803D";
         }
-        return v >= 85 ? "#0E7C66" : v >= 60 ? "#B5792A" : "#C0492E";
+        return v >= 85 ? "#03803D" : v >= 60 ? "#B5792A" : "#C0492E";
     }
 
     public String covColor(int v) {

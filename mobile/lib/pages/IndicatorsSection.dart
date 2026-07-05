@@ -17,7 +17,7 @@ class IndicatorsSection extends StatelessWidget {
           spacing: 16,
           runSpacing: 8,
           children: const [
-            _LegendDot(Color(0xFF0E7C66), '≥ 85% on target'),
+            _LegendDot(Color(0xFF03803D), '≥ 85% on target'),
             _LegendDot(Color(0xFFB5792A), '60–84% gap'),
             _LegendDot(Color(0xFFC0492E), '< 60% / high burden'),
           ],

@@ -1,6 +1,10 @@
 package bd.gov.mch.web;
 
+import bd.gov.mch.domain.User;
+import bd.gov.mch.repo.UserRepository;
 import java.util.Map;
+import java.util.Optional;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -8,13 +12,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Mocked authentication matching the design reference: any password logs in. The
- * supplied username decides which surface (field app vs supervisor portal) the
- * client should show. A real deployment would issue role-scoped tokens here.
+ * Database-backed login: looks the username up in the {@code users} table and
+ * checks the password. Wrong credentials → 401. The response tells the client
+ * which surface to show (field app vs supervisor portal).
+ *
+ * <p>Demo-grade: passwords are plain text and no token is issued. Before a real
+ * deployment, hash passwords (BCrypt) and return a role-scoped JWT here.
  */
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
+
+    private final UserRepository users;
+
+    public AuthController(UserRepository users) {
+        this.users = users;
+    }
 
     public record LoginRequest(String username, String password) {
     }
@@ -26,19 +39,22 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
         String username = request.username() == null ? "" : request.username().trim();
+        String password = request.password() == null ? "" : request.password();
 
-        if ("s.rahman".equalsIgnoreCase(username)) {
-            return ResponseEntity.ok(new LoginResponse("supervisor", new Profile(
-                    "Dr. S. Rahman", "Supervisor",
-                    "Bhola Sadar · 6 unions · 42 field officers", "s.rahman")));
+        Optional<User> found = users.findByUsername(username);   // ← the DB read
+        if (found.isEmpty() || !found.get().getPassword().equals(password)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("error", "Invalid username or password"));
         }
 
-        // Default everyone else to the field-officer app (offline surveillance).
-        return ResponseEntity.ok(new LoginResponse("field-officer", new Profile(
-                "Rokeya Sultana", "FWA", "Char Bhola Union",
-                username.isEmpty() ? "rokeya.cb01" : username)));
+        User u = found.get();
+        return ResponseEntity.ok(new LoginResponse(u.getRole(), new Profile(
+                u.getName(),
+                "supervisor".equals(u.getRole()) ? "Supervisor" : "FWA",
+                u.getScope(),
+                u.getUsername())));
     }
 
     @PostMapping("/whoami")

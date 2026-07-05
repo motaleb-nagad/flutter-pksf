@@ -10,7 +10,7 @@ it centralises the clinical scoring logic so the app and server never drift.
 |---|---|
 | Language / runtime | Java 21 |
 | Framework | Spring Boot 3.3 (Web + Data JPA + Validation) |
-| Database | H2 in-memory (swap the datasource for PostgreSQL in production) |
+| Database | H2 file-based, persisted in backend/data/ (swap for PostgreSQL in production) |
 | Build | Maven |
 
 ## Running
@@ -22,15 +22,15 @@ mvn test                   # run the unit tests (risk + nutrition logic)
 mvn clean package          # build the runnable jar (target/*.jar)
 ```
 
-The in-memory DB is seeded on startup with the design-handoff sample data
+The DB (a file under backend/data/, so it survives restarts) is seeded on first startup with the design-handoff sample data
 (Char Bhola Union, Bhola Sadar Upazila). The H2 web console is at
-`http://localhost:8080/h2-console` (JDBC URL `jdbc:h2:mem:mch`, user `sa`).
+`http://localhost:8080/h2-console` (JDBC URL `jdbc:h2:file:./data/mch`, user `sa`).
 
 ## API
 
 | Method | Path | Purpose |
 |---|---|---|
-| `POST` | `/api/auth/login` | Mock login; username `s.rahman` → supervisor, else field officer |
+| `POST` | `/api/auth/login` | DB-backed login against the `users` table; 401 on bad credentials |
 | `GET`  | `/api/beneficiaries` | List the beneficiary register |
 | `GET`  | `/api/beneficiaries/{id}` | One beneficiary |
 | `POST` | `/api/beneficiaries` | Register / upsert a beneficiary |

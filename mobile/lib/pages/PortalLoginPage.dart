@@ -27,9 +27,18 @@ class _PortalLoginState extends State<PortalLoginPage> {
   Future<void> _login() async {
     final state = context.read<AppState>();
     try {
-      await Repository().api.login(_user.text, _pass.text);
-    } catch (_) {/* offline — proceed */}
-    state.adminLogin();
+      final res = await Repository().api.login(_user.text, _pass.text);
+      if (res == null) {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text('Invalid username or password · ভুল তথ্য')));
+        return;
+      }
+      state.adminLogin();
+    } catch (_) {
+      // Server unreachable — proceed with the local demo session.
+      state.adminLogin();
+    }
   }
 
   @override
@@ -91,7 +100,7 @@ class _PortalLoginState extends State<PortalLoginPage> {
                 ),
                 const SizedBox(height: 13),
                 Center(
-                  child: Text('Authorised health officials only · ${CurrentSupervisor.upazila}',
+                  child: Text('Demo login: s.rahman / Admin-2026 · ${CurrentSupervisor.upazila}',
                       textAlign: TextAlign.center,
                       style: const TextStyle(fontSize: 11.5, color: T.textMuted)),
                 ),

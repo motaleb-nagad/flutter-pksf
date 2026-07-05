@@ -43,10 +43,10 @@ Color covColor(int v, {bool burden = false}) {
         ? const Color(0xFFC0492E)
         : v >= 12
             ? const Color(0xFFB5792A)
-            : const Color(0xFF0E7C66);
+            : const Color(0xFF03803D);
   }
   return v >= 85
-      ? const Color(0xFF0E7C66)
+      ? const Color(0xFF03803D)
       : v >= 60
           ? const Color(0xFFB5792A)
           : const Color(0xFFC0492E);

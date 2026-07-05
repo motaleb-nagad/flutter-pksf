@@ -17,7 +17,10 @@ class ApiService {
 
   final Dio _dio;
 
-  /// Mocked login — returns {role, profile} on success, null otherwise.
+  /// DB-backed login. Returns {role, profile} on success, **null** when the
+  /// server said the credentials are wrong (401), and **throws** when the
+  /// server is unreachable — so callers can tell "wrong password" apart from
+  /// "offline" (same DioException pattern as the PKSF login screen).
   Future<Map<String, dynamic>?> login(String username, String password) async {
     try {
       final res = await _dio.post('/api/auth/login', data: {
@@ -27,10 +30,13 @@ class ApiService {
       if (res.statusCode == 200 && res.data is Map) {
         return Map<String, dynamic>.from(res.data as Map);
       }
-    } on DioException {
-      return null; // offline / server down — caller falls back to local session
+      return null;
+    } on DioException catch (e) {
+      if (e.response != null && e.response!.statusCode == 401) {
+        return null; // invalid username/password
+      }
+      rethrow; // network problem — caller decides (offline fallback)
     }
-    return null;
   }
 
   Future<List<Beneficiary>> beneficiaries() async {

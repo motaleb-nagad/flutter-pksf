@@ -269,7 +269,7 @@ class _ChildProfile extends StatelessWidget {
                       height: 15,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
-                        color: e.$2 == 'done' ? const Color(0xFF0E7C66) : const Color(0xFFC0492E),
+                        color: e.$2 == 'done' ? const Color(0xFF03803D) : const Color(0xFFC0492E),
                         shape: BoxShape.circle,
                       ),
                       child: Text(e.$2 == 'done' ? '✓' : '!',

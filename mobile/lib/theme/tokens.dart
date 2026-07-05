@@ -3,9 +3,9 @@
 import 'package:flutter/material.dart';
 
 class T {
-  // Brand / greens
-  static const brand = Color(0xFF0E7C66); // primary actions, app headers, low-risk
-  static const brandDeep = Color(0xFF0A5D4D); // portal sidebar + portal login bg
+  // Brand / greens — matched to the PKSF app's green (#03803d)
+  static const brand = Color(0xFF03803D); // primary actions, app headers
+  static const brandDeep = Color(0xFF025C2C); // portal sidebar + portal login bg
 
   // Backgrounds
   static const pageBg = Color(0xFFECE7DD); // outer page (warm sand)
@@ -32,7 +32,7 @@ class T {
   static const riskHighBg = Color(0xFFF7E4DE);
   static const riskMedium = Color(0xFFB5792A);
   static const riskMediumBg = Color(0xFFF5EAD6);
-  static const riskLow = Color(0xFF0E7C66);
+  static const riskLow = Color(0xFF03803D);
   static const riskLowBg = Color(0xFFE0EFEA);
 
   // Status / accents

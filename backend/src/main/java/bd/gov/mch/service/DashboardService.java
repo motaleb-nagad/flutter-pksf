@@ -54,14 +54,14 @@ public class DashboardService {
 
     public List<ColoredPoint> nutritionBands() {
         return List.of(
-                new ColoredPoint("Normal", 81, "#0E7C66"),
+                new ColoredPoint("Normal", 81, "#03803D"),
                 new ColoredPoint("MAM", 13, "#B5792A"),
                 new ColoredPoint("SAM", 6, "#C0492E"));
     }
 
     public List<ColoredPoint> riskDistribution() {
         return List.of(
-                new ColoredPoint("Low", 64, "#0E7C66"),
+                new ColoredPoint("Low", 64, "#03803D"),
                 new ColoredPoint("Medium", 26, "#B5792A"),
                 new ColoredPoint("High", 10, "#C0492E"));
     }

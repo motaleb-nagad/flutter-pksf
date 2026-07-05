@@ -19,7 +19,7 @@ class GeneralProfileMeta {
   final List<CareItem> items;
 }
 
-const _green = Color(0xFF0E7C66);
+const _green = Color(0xFF03803D);
 const _amber = Color(0xFFC68A3E);
 const _red = Color(0xFFC0492E);
 

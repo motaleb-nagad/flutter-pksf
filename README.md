@@ -70,14 +70,19 @@ cleartext-HTTP note and `backend/README.md` for the full API reference.
   `Sync` action POSTs the batch to `/api/sync` and clears only the records the
   server acknowledges, so an interrupted sync is safe to retry.
 
-## Demo logins (auth is mocked — any password works)
+## Demo logins (real accounts in the backend `users` table)
 
-- Field officer — username `rokeya.cb01`
-- Supervisor — username `s.rahman`
+- Field officer — `rokeya.cb01` / `Mch-2026`
+- Supervisor — `s.rahman` / `Admin-2026`
+
+Wrong credentials are rejected (401) when the backend is reachable; with no
+connection the app falls back to its offline local session. Onboarding a field
+officer in the portal creates a real login. Step-by-step local testing guide:
+**[docs/LOCAL_SETUP.md](docs/LOCAL_SETUP.md)**.
 
 ## Next steps
 
-- Replace mocked auth with role-scoped tokens (JWT/OAuth2).
+- Hash passwords (BCrypt) and issue role-scoped tokens (JWT/OAuth2).
 - Swap H2 for PostgreSQL and add migrations + conflict resolution on sync.
 - Persist full per-beneficiary visit history (visits currently update the
   beneficiary's risk/next-visit; timelines are illustrative).

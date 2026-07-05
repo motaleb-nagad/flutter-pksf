@@ -16,7 +16,7 @@ class RiskStyle {
 const Map<RiskLevel, RiskStyle> kRisk = {
   RiskLevel.high: RiskStyle(Color(0xFFC0492E), Color(0xFFF7E4DE), 'High risk', 'উচ্চ ঝুঁকি'),
   RiskLevel.medium: RiskStyle(Color(0xFFB5792A), Color(0xFFF5EAD6), 'Medium risk', 'মাঝারি ঝুঁকি'),
-  RiskLevel.low: RiskStyle(Color(0xFF0E7C66), Color(0xFFE0EFEA), 'Low risk', 'কম ঝুঁকি'),
+  RiskLevel.low: RiskStyle(Color(0xFF03803D), Color(0xFFE0EFEA), 'Low risk', 'কম ঝুঁকি'),
 };
 
 RiskStyle riskStyle(RiskLevel level) => kRisk[level]!;

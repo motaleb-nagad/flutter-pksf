@@ -2,13 +2,15 @@ spring:
   application:
     name: mch-surveillance-backend
   datasource:
-    url: jdbc:h2:mem:mch;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    # File-based H2 so data survives restarts during local testing.
+    # The DB file lands in backend/data/mch.mv.db — delete it to reset.
+    url: jdbc:h2:file:./data/mch;DB_CLOSE_DELAY=-1
     driver-class-name: org.h2.Driver
     username: sa
     password: ""
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     open-in-view: false
     properties:
       hibernate:
