@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../app/widgets.dart';
-import '../../domain/format.dart';
-import '../../state/app_state.dart';
-import '../../theme/tokens.dart';
+import '../widgets/widgets.dart';
+import '../domain/format.dart';
+import '../state/app_state.dart';
+import '../theme/tokens.dart';
 
 class BeneficiariesSection extends StatelessWidget {
   const BeneficiariesSection({super.key});

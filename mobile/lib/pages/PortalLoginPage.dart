@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../data/repository.dart';
+import '../services/repository.dart';
 import '../domain/seed.dart';
 import '../state/app_state.dart';
 import '../theme/tokens.dart';
 
-class PortalLogin extends StatefulWidget {
-  const PortalLogin({super.key});
+class PortalLoginPage extends StatefulWidget {
+  const PortalLoginPage({super.key});
 
   @override
-  State<PortalLogin> createState() => _PortalLoginState();
+  State<PortalLoginPage> createState() => _PortalLoginState();
 }
 
-class _PortalLoginState extends State<PortalLogin> {
+class _PortalLoginState extends State<PortalLoginPage> {
   final _user = TextEditingController(text: CurrentSupervisor.username);
   final _pass = TextEditingController();
 

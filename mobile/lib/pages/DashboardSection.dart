@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../app/widgets.dart';
-import '../../domain/dashboard.dart';
-import '../../domain/format.dart';
-import '../../domain/models.dart';
-import '../../state/app_state.dart';
-import '../../theme/tokens.dart';
+import '../widgets/widgets.dart';
+import '../domain/dashboard.dart';
+import '../domain/format.dart';
+import '../domain/models.dart';
+import '../state/app_state.dart';
+import '../theme/tokens.dart';
 
 class DashboardSection extends StatelessWidget {
   const DashboardSection({super.key});

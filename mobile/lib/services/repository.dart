@@ -3,18 +3,18 @@
 /// centralized. Reads come from the local store (offline-first); a successful
 /// sync reconciles with the backend.
 import '../domain/models.dart';
-import 'api_client.dart';
+import 'api_service.dart';
 import 'local_db.dart';
 
 class Repository {
-  Repository({LocalDb? db, ApiClient? api})
+  Repository({LocalDb? db, ApiService? api})
       : _db = db ?? LocalDb.instance,
-        _api = api ?? ApiClient();
+        _api = api ?? ApiService();
 
   final LocalDb _db;
-  final ApiClient _api;
+  final ApiService _api;
 
-  ApiClient get api => _api;
+  ApiService get api => _api;
 
   Future<List<Beneficiary>> beneficiaries() => _db.beneficiaries();
   Future<Beneficiary?> beneficiary(String id) => _db.beneficiary(id);

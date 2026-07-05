@@ -3,23 +3,23 @@ import 'package:provider/provider.dart';
 
 import '../state/app_state.dart';
 import '../theme/tokens.dart';
-import 'bottom_nav.dart';
-import 'child_screen.dart';
-import 'home_screen.dart';
-import 'list_screen.dart';
-import 'login_screen.dart';
-import 'profile_screen.dart';
-import 'register_screen.dart';
-import 'visit_screen.dart';
+import 'AncVisitPage.dart';
+import 'BeneficiaryListPage.dart';
+import 'BottomNav.dart';
+import 'ChildHealthPage.dart';
+import 'HomePage.dart';
+import 'LoginPage.dart';
+import 'ProfilePage.dart';
+import 'RegisterPage.dart';
 
 /// The offline field-officer mobile app: login gate → screen + persistent nav.
-class FieldApp extends StatelessWidget {
-  const FieldApp({super.key});
+class FieldShell extends StatelessWidget {
+  const FieldShell({super.key});
 
   @override
   Widget build(BuildContext context) {
     final loggedIn = context.select<AppState, bool>((s) => s.loggedIn);
-    if (!loggedIn) return const LoginScreen();
+    if (!loggedIn) return const LoginPage();
 
     final screen = context.select<AppState, AppScreen>((s) => s.screen);
     return Container(
@@ -36,17 +36,17 @@ class FieldApp extends StatelessWidget {
   Widget _screenFor(AppScreen screen) {
     switch (screen) {
       case AppScreen.home:
-        return const HomeScreen();
+        return const HomePage();
       case AppScreen.list:
-        return const ListScreen();
+        return const BeneficiaryListPage();
       case AppScreen.register:
-        return const RegisterScreen();
+        return const RegisterPage();
       case AppScreen.visit:
-        return const VisitScreen();
+        return const AncVisitPage();
       case AppScreen.child:
-        return const ChildScreen();
+        return const ChildHealthPage();
       case AppScreen.profile:
-        return const ProfileScreen();
+        return const ProfilePage();
     }
   }
 }

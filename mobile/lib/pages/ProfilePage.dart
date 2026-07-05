@@ -8,10 +8,10 @@ import '../domain/profile_meta.dart';
 import '../domain/risk.dart';
 import '../state/app_state.dart';
 import '../theme/tokens.dart';
-import 'widgets.dart';
+import '../widgets/widgets.dart';
 
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+class ProfilePage extends StatelessWidget {
+  const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {

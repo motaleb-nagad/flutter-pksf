@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../app/widgets.dart';
-import '../../domain/indicators.dart';
-import '../../theme/tokens.dart';
+import '../widgets/widgets.dart';
+import '../domain/indicators.dart';
+import '../theme/tokens.dart';
 
 class IndicatorsSection extends StatelessWidget {
   const IndicatorsSection({super.key});

@@ -7,10 +7,10 @@ import '../domain/risk.dart';
 import '../domain/seed.dart';
 import '../state/app_state.dart';
 import '../theme/tokens.dart';
-import 'widgets.dart';
+import '../widgets/widgets.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {

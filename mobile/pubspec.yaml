@@ -10,9 +10,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  cupertino_icons: ^1.0.8
   provider: ^6.1.2
-  http: ^1.2.2
-  sqflite: ^2.3.3
+  dio: ^5.8.0+1          # HTTP client (same one used in the PKSF app)
+  sqflite: ^2.3.3        # offline local database
   path: ^1.9.0
 
 dev_dependencies:

@@ -5,7 +5,7 @@ import '../domain/models.dart';
 import '../domain/nutrition.dart';
 import '../state/app_state.dart';
 import '../theme/tokens.dart';
-import 'widgets.dart';
+import '../widgets/widgets.dart';
 
 const _epi = <(String, String, String)>[
   ('BCG', 'at birth', 'done'),
@@ -20,14 +20,14 @@ const _epi = <(String, String, String)>[
   ('MR-2', '15 mo', 'upcoming'),
 ];
 
-class ChildScreen extends StatefulWidget {
-  const ChildScreen({super.key});
+class ChildHealthPage extends StatefulWidget {
+  const ChildHealthPage({super.key});
 
   @override
-  State<ChildScreen> createState() => _ChildScreenState();
+  State<ChildHealthPage> createState() => _ChildScreenState();
 }
 
-class _ChildScreenState extends State<ChildScreen> {
+class _ChildScreenState extends State<ChildHealthPage> {
   late ChildAssessment _child;
   bool _init = false;
 

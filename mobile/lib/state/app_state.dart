@@ -3,7 +3,7 @@
 /// cached view of the data that screens render from.
 import 'package:flutter/material.dart';
 
-import '../data/repository.dart';
+import '../services/repository.dart';
 import '../domain/models.dart';
 
 enum AppView { app, portal }

@@ -4,8 +4,8 @@ import '../domain/seed.dart';
 import '../theme/tokens.dart';
 
 /// Scope + sync status band shown under the portal app bar.
-class TopBar extends StatelessWidget {
-  const TopBar({super.key});
+class PortalTopBar extends StatelessWidget {
+  const PortalTopBar({super.key});
 
   @override
   Widget build(BuildContext context) {

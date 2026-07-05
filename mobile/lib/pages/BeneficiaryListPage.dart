@@ -5,7 +5,7 @@ import '../domain/format.dart';
 import '../domain/risk.dart';
 import '../state/app_state.dart';
 import '../theme/tokens.dart';
-import 'widgets.dart';
+import '../widgets/widgets.dart';
 
 const _chips = <(ListFilter, String)>[
   (ListFilter.all, 'All'),
@@ -16,14 +16,14 @@ const _chips = <(ListFilter, String)>[
   (ListFilter.child, 'Child'),
 ];
 
-class ListScreen extends StatefulWidget {
-  const ListScreen({super.key});
+class BeneficiaryListPage extends StatefulWidget {
+  const BeneficiaryListPage({super.key});
 
   @override
-  State<ListScreen> createState() => _ListScreenState();
+  State<BeneficiaryListPage> createState() => _ListScreenState();
 }
 
-class _ListScreenState extends State<ListScreen> {
+class _ListScreenState extends State<BeneficiaryListPage> {
   String _query = '';
 
   @override

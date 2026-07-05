@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'app/field_app.dart';
-import 'data/repository.dart';
-import 'portal/portal.dart';
+import 'pages/FieldShell.dart';
+import 'pages/PortalPage.dart';
+import 'services/repository.dart';
 import 'state/app_state.dart';
 import 'theme/tokens.dart';
 
@@ -38,7 +38,7 @@ class RootShell extends StatelessWidget {
     final view = context.select<AppState, AppView>((s) => s.view);
     return Scaffold(
       backgroundColor: T.pageBg,
-      body: view == AppView.app ? const FieldApp() : const Portal(),
+      body: view == AppView.app ? const FieldShell() : const PortalPage(),
     );
   }
 }

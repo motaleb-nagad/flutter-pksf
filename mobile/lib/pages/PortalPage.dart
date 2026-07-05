@@ -3,17 +3,17 @@ import 'package:provider/provider.dart';
 
 import '../state/app_state.dart';
 import '../theme/tokens.dart';
-import 'portal_login.dart';
-import 'sections/beneficiaries_section.dart';
-import 'sections/dashboard_section.dart';
-import 'sections/indicators_section.dart';
-import 'sections/workers_section.dart';
-import 'sidebar.dart';
-import 'topbar.dart';
+import 'BeneficiariesSection.dart';
+import 'DashboardSection.dart';
+import 'IndicatorsSection.dart';
+import 'PortalLoginPage.dart';
+import 'PortalSidebar.dart';
+import 'PortalTopBar.dart';
+import 'WorkersSection.dart';
 
 /// Supervisor portal: login gate → sidebar (drawer on mobile) + section content.
-class Portal extends StatelessWidget {
-  const Portal({super.key});
+class PortalPage extends StatelessWidget {
+  const PortalPage({super.key});
 
   static const _titles = {
     PortalSection.dashboard: 'Programme Dashboard',
@@ -25,12 +25,12 @@ class Portal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = context.watch<AppState>();
-    if (!state.adminLoggedIn) return const PortalLogin();
+    if (!state.adminLoggedIn) return const PortalLoginPage();
 
     final section = state.portalSection;
     return Scaffold(
       backgroundColor: T.portalBg,
-      drawer: const Drawer(child: Sidebar()),
+      drawer: const Drawer(child: PortalSidebar()),
       appBar: AppBar(
         backgroundColor: T.brandDeep,
         foregroundColor: Colors.white,
@@ -46,7 +46,7 @@ class Portal extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const TopBar(),
+          const PortalTopBar(),
           Expanded(child: _section(section)),
         ],
       ),

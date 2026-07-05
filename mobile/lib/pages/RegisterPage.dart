@@ -3,19 +3,19 @@ import 'package:provider/provider.dart';
 
 import '../state/app_state.dart';
 import '../theme/tokens.dart';
-import 'widgets.dart';
+import '../widgets/widgets.dart';
 
 /// Multi-field registration capturing personal, location (GPS) & pregnancy data.
 /// Fields are pre-filled to match the design reference; saving advances to the
 /// first ANC visit.
-class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({super.key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  State<RegisterPage> createState() => _RegisterScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _RegisterScreenState extends State<RegisterPage> {
   String _gps = '22.318° N, 90.951° E';
   bool _capturing = false;
 

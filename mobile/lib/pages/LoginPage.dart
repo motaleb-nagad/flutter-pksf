@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../data/repository.dart';
+import '../services/repository.dart';
 import '../domain/seed.dart';
 import '../state/app_state.dart';
 import '../theme/tokens.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<LoginPage> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends State<LoginPage> {
   final _user = TextEditingController(text: CurrentOfficer.username);
   final _pass = TextEditingController();
 

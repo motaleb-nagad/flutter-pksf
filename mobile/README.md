@@ -19,24 +19,47 @@ Bhola Sadar Upazila.
 | Framework | Flutter (Dart 3) — one codebase for iOS + Android |
 | State | `provider` (`ChangeNotifier`) |
 | Offline storage | `sqflite` (local SQLite + a sync queue) |
-| Networking | `http` to the Spring Boot backend |
+| Networking | `dio` to the Spring Boot backend |
 | Charts | Lightweight hand-built bar/progress widgets (no native chart dep) |
 
 ## Project layout
 
+Screens live in `lib/pages/` (PascalCase, one file per screen — same convention
+as the PKSF app); supporting code sits in small, clearly-named folders.
+
 ```
 lib/
-  domain/    models + ported clinical logic (risk, nutrition, indicators,
-             dashboard, format) + seed data — pure Dart, unit-tested
-  data/      local_db (sqflite), api_client (REST), repository (writes + sync queue)
-  state/     AppState (provider): navigation, auth, connectivity, cached data
-  theme/     design tokens (colours) + ThemeData
-  app/       Field Officer app (login, home, list, register, ANC visit,
-             child health, profile, bottom nav)
-  portal/    Supervisor portal (login, sidebar, dashboard, beneficiaries,
-             indicators, field officers, onboarding modal)
-test/        domain logic parity tests (mirror the backend's tests)
+  main.dart               app entry — swaps FieldShell ↔ PortalPage
+  config/
+    api_config.dart       backend base URL (local ↔ server toggle)
+  pages/                  every screen (PascalCase, like your app)
+    LoginPage, HomePage, BeneficiaryListPage, RegisterPage, AncVisitPage,
+    ChildHealthPage, ProfilePage, BottomNav, FieldShell           (field app)
+    PortalPage, PortalLoginPage, PortalSidebar, PortalTopBar,
+    DashboardSection, BeneficiariesSection, IndicatorsSection,
+    WorkersSection, OnboardModal                                  (supervisor)
+  widgets/
+    widgets.dart          shared UI (Avatar, RiskBadge, AppCard, ScreenHeader…)
+  services/
+    api_service.dart      dio client for the backend
+    local_db.dart         sqflite offline store + sync queue
+    repository.dart       the only writer: local write + enqueue sync
+  state/
+    app_state.dart        provider store: navigation, auth, cached data
+  domain/                 models + clinical logic (risk, nutrition, indicators,
+                          dashboard, format) + seed data — pure Dart, unit-tested
+  theme/
+    tokens.dart           colours + ThemeData
+test/                     domain logic parity tests (mirror the backend's tests)
 ```
+
+### Why a couple of pieces differ from the PKSF app
+Your PKSF app is online-only with `setState` and `Map<String,dynamic>`. This app
+keeps **typed models** and a **provider** store on purpose, because it is
+offline-first: the same record serialises both to backend JSON *and* to SQLite
+rows, and one shared beneficiary list feeds the home counter, the case list, the
+profile, and the "pending sync" badge at once. Everything else — `pages/` layout,
+`dio`, the local↔server base-URL toggle — follows your conventions.
 
 ## Getting started
 

@@ -17,8 +17,8 @@ const _disabled = <(IconData, String)>[
   (Icons.settings_outlined, 'Settings'),
 ];
 
-class Sidebar extends StatelessWidget {
-  const Sidebar({super.key});
+class PortalSidebar extends StatelessWidget {
+  const PortalSidebar({super.key});
 
   @override
   Widget build(BuildContext context) {

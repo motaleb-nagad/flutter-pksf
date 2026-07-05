@@ -5,7 +5,7 @@ import '../domain/models.dart';
 import '../domain/risk.dart';
 import '../state/app_state.dart';
 import '../theme/tokens.dart';
-import 'widgets.dart';
+import '../widgets/widgets.dart';
 
 const _dangerDefs = <(String, String, String)>[
   ('bleeding', 'Vaginal bleeding', 'যোনিপথে রক্তক্ষরণ'),
@@ -25,14 +25,14 @@ const _serviceDefs = <(String, String, String)>[
   ('calcium', 'Calcium given', 'ক্যালসিয়াম'),
 ];
 
-class VisitScreen extends StatefulWidget {
-  const VisitScreen({super.key});
+class AncVisitPage extends StatefulWidget {
+  const AncVisitPage({super.key});
 
   @override
-  State<VisitScreen> createState() => _VisitScreenState();
+  State<AncVisitPage> createState() => _VisitScreenState();
 }
 
-class _VisitScreenState extends State<VisitScreen> {
+class _VisitScreenState extends State<AncVisitPage> {
   final _v = AncVisit(
     sbp: 150,
     dbp: 95,
