@@ -1,24 +1,23 @@
 spring:
   application:
     name: mch-surveillance-backend
+
+  # Default: PostgreSQL (long-term persistent store).
+  # Override per environment with env vars: DB_URL, DB_USERNAME, DB_PASSWORD.
   datasource:
-    # File-based H2 so data survives restarts during local testing.
-    # The DB file lands in backend/data/mch.mv.db — delete it to reset.
-    url: jdbc:h2:file:./data/mch;DB_CLOSE_DELAY=-1
-    driver-class-name: org.h2.Driver
-    username: sa
-    password: ""
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/mch}
+    username: ${DB_USERNAME:mch}
+    password: ${DB_PASSWORD:mch}
+    driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
+      # Hibernate keeps the schema in sync with the entities. For production,
+      # switch to `validate` and manage schema changes with Flyway migrations.
       ddl-auto: update
     open-in-view: false
     properties:
       hibernate:
         format_sql: false
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
 
 server:
   port: 8080
@@ -27,3 +26,20 @@ server:
 mch:
   cors:
     allowed-origins: "*"
+
+---
+# Zero-install demo profile: `mvn spring-boot:run -Dspring-boot.run.profiles=h2`
+# Uses a local H2 file (backend/data/) instead of PostgreSQL.
+spring:
+  config:
+    activate:
+      on-profile: h2
+  datasource:
+    url: jdbc:h2:file:./data/mch;DB_CLOSE_DELAY=-1
+    username: sa
+    password: ""
+    driver-class-name: org.h2.Driver
+  h2:
+    console:
+      enabled: true
+      path: /h2-console

@@ -21,13 +21,13 @@ Sample data uses **Char Bhola Union, Bhola Sadar Upazila**.
 
 ```
 ├── mobile/     Flutter app (iOS + Android) — field app + supervisor portal
-└── backend/    Spring Boot (Java 21) REST API — H2, JPA, clinical logic, seed data
+└── backend/    Spring Boot (Java 21) REST API — PostgreSQL, JPA, clinical logic, seed data
 ```
 
 | Layer | Tech |
 |---|---|
 | Mobile app | Flutter (Dart 3), `provider`, `sqflite` (offline store), `http` |
-| Backend | Java 21, Spring Boot 3.3 (Web + Data JPA + Validation), H2 |
+| Backend | Java 21, Spring Boot 3.3 (Web + Data JPA + Validation), PostgreSQL |
 | Build | `flutter` (app) · Maven (backend) |
 
 The **clinical scoring logic is centralized and duplicated in lock-step** on both
@@ -44,7 +44,8 @@ app can classify risk/nutrition fully offline and the server stays authoritative
 
 ```bash
 cd backend
-mvn spring-boot:run     # API on http://localhost:8080 (seeded in-memory H2)
+docker compose up -d    # PostgreSQL on localhost:5432 (or use your own install)
+mvn spring-boot:run     # API on http://localhost:8080 (seeds PostgreSQL on first run)
 mvn test                # risk + nutrition unit tests
 ```
 
@@ -83,6 +84,6 @@ officer in the portal creates a real login. Step-by-step local testing guide:
 ## Next steps
 
 - Hash passwords (BCrypt) and issue role-scoped tokens (JWT/OAuth2).
-- Swap H2 for PostgreSQL and add migrations + conflict resolution on sync.
+- Add Flyway migrations (`ddl-auto: validate`) + conflict resolution on sync.
 - Persist full per-beneficiary visit history (visits currently update the
   beneficiary's risk/next-visit; timelines are illustrative).

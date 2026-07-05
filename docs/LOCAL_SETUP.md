@@ -1,11 +1,12 @@
 # Local setup — test in Android Studio
 
-Everything runs on your PC: Spring Boot backend (file-based H2) + the Flutter
+Everything runs on your PC: PostgreSQL + Spring Boot backend + the Flutter
 app in an Android emulator.
 
 ## 0. One-time installs
 
 - JDK 21 + Maven
+- **PostgreSQL** (native installer, or Docker Desktop and use the provided compose file)
 - Flutter SDK (`flutter doctor` must be clean)
 - Android Studio with the **Flutter** plugin + one emulator (Device Manager)
 
@@ -17,17 +18,36 @@ cd Preventive-Healthcare-App-Bangladesh
 git checkout claude/flutter-springboot-rebuild-xszyf2
 ```
 
-## 2. Start the backend (terminal 1)
+## 2. Start PostgreSQL + the backend (terminal 1)
+
+**Database first.** Easiest with Docker (uses `backend/docker-compose.yml`):
 
 ```bash
 cd backend
+docker compose up -d      # postgres:16 on localhost:5432, db/user/pass = mch
+```
+
+Or with your own PostgreSQL install, create the database once:
+
+```sql
+CREATE USER mch WITH PASSWORD 'mch';
+CREATE DATABASE mch OWNER mch;
+```
+
+**Then the backend:**
+
+```bash
 mvn spring-boot:run
 ```
 
-- Runs on `http://localhost:8080`; the DB is a **file** at `backend/data/mch.mv.db`,
-  so your data survives restarts. Delete that file to reset to seed data.
+- Runs on `http://localhost:8080`; tables are created and seeded automatically
+  on first run, and restarts never duplicate the seed data.
 - Sanity check in a browser: `http://localhost:8080/api/beneficiaries`
-- H2 console: `http://localhost:8080/h2-console` (JDBC URL `jdbc:h2:file:./data/mch`, user `sa`)
+- Inspect data with any Postgres client (psql, DBeaver, IntelliJ Database tab):
+  `localhost:5432`, db `mch`, user `mch`, password `mch`.
+- Different credentials/host? Set `DB_URL`, `DB_USERNAME`, `DB_PASSWORD` env vars.
+- **No PostgreSQL available?** Zero-install fallback:
+  `mvn spring-boot:run -Dspring-boot.run.profiles=h2`
 
 ## 3. Prepare the Flutter app (once)
 
@@ -87,5 +107,5 @@ phone on your Wi-Fi, either edit that file to your PC's LAN IP or run with:
 |---|---|
 | App can't reach backend | Backend running? Emulator uses `10.0.2.2`, not `localhost`. Cleartext attribute added? |
 | `flutter create .` complains | Run it from inside `mobile/`, not the repo root |
-| Want a clean DB | Stop backend, delete `backend/data/`, start again (re-seeds) |
+| Want a clean DB | Stop backend, then `docker compose down -v` (or `DROP DATABASE mch; CREATE DATABASE mch OWNER mch;`), start again (re-seeds). H2 profile: delete `backend/data/` |
 | Reset the app's local store | Uninstall the app from the emulator (clears SQLite), rerun |

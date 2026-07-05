@@ -10,21 +10,52 @@ it centralises the clinical scoring logic so the app and server never drift.
 |---|---|
 | Language / runtime | Java 21 |
 | Framework | Spring Boot 3.3 (Web + Data JPA + Validation) |
-| Database | H2 file-based, persisted in backend/data/ (swap for PostgreSQL in production) |
+| Database | **PostgreSQL** (default) · H2 file fallback via the `h2` profile |
 | Build | Maven |
+
+## Database setup (PostgreSQL)
+
+The backend expects a PostgreSQL database. Either:
+
+**Option A — Docker (one command):**
+```bash
+cd backend
+docker compose up -d       # postgres:16 on localhost:5432, db/user/pass = mch
+```
+
+**Option B — your own PostgreSQL install:**
+```sql
+CREATE USER mch WITH PASSWORD 'mch';
+CREATE DATABASE mch OWNER mch;
+```
+
+Connection settings default to `jdbc:postgresql://localhost:5432/mch` with
+`mch`/`mch` and are overridable per environment — no code change needed:
+
+```bash
+DB_URL=jdbc:postgresql://dbhost:5432/mch DB_USERNAME=app DB_PASSWORD=secret mvn spring-boot:run
+```
+
+Hibernate creates/updates the tables on startup (`ddl-auto: update`) and the
+seeder populates the sample data (Char Bhola Union) only when the tables are
+empty — restarts never duplicate data. For production, switch to
+`ddl-auto: validate` and manage schema changes with Flyway.
 
 ## Running
 
 ```bash
 cd backend
-mvn spring-boot:run        # starts on http://localhost:8080
+mvn spring-boot:run        # starts on http://localhost:8080 (needs PostgreSQL up)
 mvn test                   # run the unit tests (risk + nutrition logic)
 mvn clean package          # build the runnable jar (target/*.jar)
 ```
 
-The DB (a file under backend/data/, so it survives restarts) is seeded on first startup with the design-handoff sample data
-(Char Bhola Union, Bhola Sadar Upazila). The H2 web console is at
-`http://localhost:8080/h2-console` (JDBC URL `jdbc:h2:file:./data/mch`, user `sa`).
+**No PostgreSQL handy?** Use the zero-install H2 fallback (file under
+`backend/data/`, console at `/h2-console`):
+
+```bash
+mvn spring-boot:run -Dspring-boot.run.profiles=h2
+```
 
 ## API
 
@@ -57,8 +88,10 @@ The scoring logic lives in `service/` and is exercised by unit tests:
 
 ## Production notes
 
-- Swap H2 for PostgreSQL by changing `spring.datasource.*` in `application.yml`
-  and setting `spring.jpa.hibernate.ddl-auto=validate` with a migration tool.
-- Replace the mocked `AuthController` with real role-scoped tokens (JWT/OAuth2).
+- Set `spring.jpa.hibernate.ddl-auto=validate` and manage schema changes with
+  Flyway migrations instead of letting Hibernate alter tables.
+- Passwords in the `users` table are plain text (demo); hash with BCrypt and
+  issue role-scoped tokens (JWT/OAuth2) from `AuthController`.
 - The `/api/sync` endpoint currently acknowledges everything; add idempotency
   keys + conflict resolution before relying on it for real field data.
+- Point `DB_URL`/`DB_USERNAME`/`DB_PASSWORD` at your managed PostgreSQL.
