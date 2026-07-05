@@ -9,11 +9,13 @@ spring:
     username: ${DB_USERNAME:mch}
     password: ${DB_PASSWORD:mch}
     driver-class-name: org.postgresql.Driver
+  # Schema is owned by Flyway migrations (src/main/resources/db/migration);
+  # Hibernate only validates that the entities match.
+  flyway:
+    enabled: true
   jpa:
     hibernate:
-      # Hibernate keeps the schema in sync with the entities. For production,
-      # switch to `validate` and manage schema changes with Flyway migrations.
-      ddl-auto: update
+      ddl-auto: validate
     open-in-view: false
     properties:
       hibernate:
@@ -39,6 +41,13 @@ spring:
     username: sa
     password: ""
     driver-class-name: org.h2.Driver
+  # Demo profile: skip Flyway (migrations are written for PostgreSQL) and let
+  # Hibernate create the H2 schema directly.
+  flyway:
+    enabled: false
+  jpa:
+    hibernate:
+      ddl-auto: update
   h2:
     console:
       enabled: true

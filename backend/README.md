@@ -36,10 +36,12 @@ Connection settings default to `jdbc:postgresql://localhost:5432/mch` with
 DB_URL=jdbc:postgresql://dbhost:5432/mch DB_USERNAME=app DB_PASSWORD=secret mvn spring-boot:run
 ```
 
-Hibernate creates/updates the tables on startup (`ddl-auto: update`) and the
-seeder populates the sample data (Char Bhola Union) only when the tables are
-empty — restarts never duplicate data. For production, switch to
-`ddl-auto: validate` and manage schema changes with Flyway.
+The schema is owned by **Flyway** migrations (`src/main/resources/db/migration/`):
+on startup Flyway applies any pending `Vn__*.sql` scripts, then Hibernate runs in
+`ddl-auto: validate` mode to confirm the entities match. To change the schema,
+add a new migration (e.g. `V2__add_visits_table.sql`) — never edit an applied one.
+The seeder populates the sample data (Char Bhola Union) only when the tables are
+empty, so restarts never duplicate data.
 
 ## Running
 
@@ -88,8 +90,6 @@ The scoring logic lives in `service/` and is exercised by unit tests:
 
 ## Production notes
 
-- Set `spring.jpa.hibernate.ddl-auto=validate` and manage schema changes with
-  Flyway migrations instead of letting Hibernate alter tables.
 - Passwords in the `users` table are plain text (demo); hash with BCrypt and
   issue role-scoped tokens (JWT/OAuth2) from `AuthController`.
 - The `/api/sync` endpoint currently acknowledges everything; add idempotency

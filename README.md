@@ -84,6 +84,6 @@ officer in the portal creates a real login. Step-by-step local testing guide:
 ## Next steps
 
 - Hash passwords (BCrypt) and issue role-scoped tokens (JWT/OAuth2).
-- Add Flyway migrations (`ddl-auto: validate`) + conflict resolution on sync.
+- Add idempotency keys + conflict resolution on `/api/sync`.
 - Persist full per-beneficiary visit history (visits currently update the
   beneficiary's risk/next-visit; timelines are illustrative).
