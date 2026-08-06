@@ -1,0 +1,28 @@
+flowchart LR
+    U([Field Officer])
+
+    subgraph PHONE["📱 Phone — Flutter app (iOS / Android)"]
+      UI["Screens<br/>(LoginScreen, HomeScreen...)"]
+      ST["AppState<br/>(provider / ChangeNotifier)"]
+      REPO["Repository"]
+      LDB[("Local SQLite<br/>sqflite — offline store<br/>+ sync queue")]
+      API["ApiClient (http)"]
+      UI --> ST --> REPO
+      REPO -->|read / write| LDB
+      REPO --> API
+    end
+
+    subgraph SERVER["☕ Spring Boot jar (backend)"]
+      CTRL["Controllers<br/>/api/..."]
+      SVC["Services<br/>RiskService, NutritionService"]
+      JPA["JPA repositories"]
+      H2[("H2 database<br/>beneficiaries, workers")]
+      CTRL --> SVC
+      CTRL --> JPA --> H2
+    end
+
+    U -->|taps / types| UI
+    API -->|"JSON over HTTP<br/>(8080)"| CTRL
+
+    classDef db fill:#E0EFEA,stroke:#0E7C66,color:#0a5d4d;
+    class LDB,H2 db;

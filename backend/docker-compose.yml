@@ -1,0 +1,22 @@
+# Local PostgreSQL for the MCH backend: `docker compose up -d`
+# Matches the defaults in application.yml (jdbc:postgresql://localhost:5432/mch, mch/mch).
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: mch-postgres
+    environment:
+      POSTGRES_DB: mch
+      POSTGRES_USER: mch
+      POSTGRES_PASSWORD: mch
+    ports:
+      - "5432:5432"
+    volumes:
+      - mch_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mch -d mch"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  mch_pgdata:

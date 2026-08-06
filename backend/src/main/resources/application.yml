@@ -1,0 +1,54 @@
+spring:
+  application:
+    name: mch-surveillance-backend
+
+  # Default: PostgreSQL (long-term persistent store).
+  # Override per environment with env vars: DB_URL, DB_USERNAME, DB_PASSWORD.
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/mch}
+    username: ${DB_USERNAME:mch}
+    password: ${DB_PASSWORD:mch}
+    driver-class-name: org.postgresql.Driver
+  # Schema is owned by Flyway migrations (src/main/resources/db/migration);
+  # Hibernate only validates that the entities match.
+  flyway:
+    enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: false
+
+server:
+  port: 8080
+
+# Comma-separated list of origins allowed to call the API (Flutter web / dev).
+mch:
+  cors:
+    allowed-origins: "*"
+
+---
+# Zero-install demo profile: `mvn spring-boot:run -Dspring-boot.run.profiles=h2`
+# Uses a local H2 file (backend/data/) instead of PostgreSQL.
+spring:
+  config:
+    activate:
+      on-profile: h2
+  datasource:
+    url: jdbc:h2:file:./data/mch;DB_CLOSE_DELAY=-1
+    username: sa
+    password: ""
+    driver-class-name: org.h2.Driver
+  # Demo profile: skip Flyway (migrations are written for PostgreSQL) and let
+  # Hibernate create the H2 schema directly.
+  flyway:
+    enabled: false
+  jpa:
+    hibernate:
+      ddl-auto: update
+  h2:
+    console:
+      enabled: true
+      path: /h2-console

@@ -1,0 +1,25 @@
+name: mch_surveillance
+description: Preventive Healthcare Programme — Maternal & Child Health field surveillance (offline-first field app + supervisor portal).
+publish_to: "none"
+version: 0.1.0+1
+
+environment:
+  sdk: ">=3.4.0 <4.0.0"
+  flutter: ">=3.22.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  provider: ^6.1.2
+  dio: ^5.8.0+1          # HTTP client (same one used in the PKSF app)
+  sqflite: ^2.3.3        # offline local database
+  path: ^1.9.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true

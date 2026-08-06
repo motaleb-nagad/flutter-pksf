@@ -1,0 +1,26 @@
+sequenceDiagram
+    actor U as Field Officer
+    participant App as Flutter app<br/>(visit_screen.dart)
+    participant REPO as Repository
+    participant Local as Local SQLite<br/>(sqflite)
+    participant API as ApiClient
+    participant BE as Spring Boot jar<br/>(SyncController)
+    participant H2 as H2 DB
+
+    Note over U,App: Edits BP / Hb / danger signs →<br/>computeAncRisk() re-classifies live (no network)
+
+    U->>App: tap "Save visit · সংরক্ষণ"
+    App->>REPO: recordAncVisit(id, risk, next)
+    REPO->>Local: UPDATE beneficiaries SET risk,next
+    REPO->>Local: INSERT INTO sync_queue (visit)
+    App-->>U: profile updated (works fully offline)
+
+    Note over U,App: Later, when online, taps "Sync"
+    U->>App: tap "Sync"
+    App->>REPO: flushSyncQueue()
+    REPO->>Local: SELECT * FROM sync_queue
+    REPO->>API: POST /api/sync { items[] }
+    API->>BE: batched queue
+    BE-->>API: { acknowledgedRefIds }
+    Note right of BE: a production build would<br/>persist these into H2 here
+    REPO->>Local: DELETE acknowledged rows from sync_queue
