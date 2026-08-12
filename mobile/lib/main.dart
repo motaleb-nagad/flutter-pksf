@@ -3,11 +3,16 @@ import 'package:provider/provider.dart';
 
 import 'pages/FieldShell.dart';
 import 'pages/PortalPage.dart';
+import 'services/db_factory.dart';
 import 'services/repository.dart';
 import 'state/app_state.dart';
 import 'theme/tokens.dart';
 
-void main() {
+Future<void> main() async {
+  // Required before touching platform channels / the SQLite factory.
+  WidgetsFlutterBinding.ensureInitialized();
+  // Pick the right SQLite backend for this platform (mobile, desktop, or web).
+  await initDatabaseFactory();
   runApp(const MchApp());
 }
 
